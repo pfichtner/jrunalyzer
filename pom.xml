@@ -44,7 +44,6 @@
 		<module>gpx-ui-overallstats</module>
 		<module>gpx-ui-segmentstats</module>
 		<module>gpx-ui-trackcompare</module>
-		<module>gpx-ui-importlistener</module>
 	</modules>
 
 	<profiles>

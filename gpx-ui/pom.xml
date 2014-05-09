@@ -99,13 +99,6 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.github.pfichtner.jrunalyser</groupId>
-			<artifactId>gpx.ui.importlistener</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
 	</dependencies>
 
 	<build>

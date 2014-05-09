@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/gpx.ui/src/main/java/com/github/pfichtner/jrunalyser/ui/dock/Dock.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.github.pfichtner.jrunalyser.ui.dock.Dock"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="gpx.ui"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dhttp.proxyHost=pro-campus.noc.fiducia.de &#10;-Dhttp.proxyPort=8080 &#10;-Dswing.defaultlaf=com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel&#10;-ea"/>
+</launchConfiguration>

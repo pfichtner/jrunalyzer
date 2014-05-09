@@ -1,0 +1,254 @@
+### Eclipse Workspace Patch 1.0
+#P gpx-ui-map
+Index: src/main/java/de/c2tn/gps/ui/map/image/MapViewAPI.java
+===================================================================
+--- workspaces/gpx/gpx-ui-map/src/main/java/de/c2tn/gps/ui/map/image/MapViewAPI.java	(revision 0)
++++ workspaces/gpx/gpx-ui-map/src/main/java/de/c2tn/gps/ui/map/image/MapViewAPI.java	(revision 0)
+@@ -0,0 +1,108 @@
++package com.github.pfichtner.jrunalyser.ui.map.image;
++
++import java.awt.Dimension;
++import java.awt.image.BufferedImage;
++import java.io.ByteArrayOutputStream;
++import java.io.IOException;
++import java.util.concurrent.TimeUnit;
++
++import javax.imageio.ImageIO;
++import javax.swing.JPanel;
++
++import org.jdesktop.swingx.JXPanel;
++
++import com.github.pfichtner.jrunalyser.base.data.track.Track;
++import com.github.pfichtner.jrunalyser.ui.map.MapViewPlugin;
++import com.github.pfichtner.jrunalyser.ui.map.image.MapViewAPI.Snapshoter.Builder;
++
++public class MapViewAPI {
++
++	public static class Snapshoter {
++
++		private final MapViewPlugin plugin;
++		private final String formatName;
++		private final int height, width;
++
++		public Snapshoter(Builder builder) {
++			this.plugin = builder.plugin;
++			this.height = builder.height;
++			this.width = builder.width;
++			this.formatName = builder.formatName;
++
++			this.plugin.setInfoBoxEnabled(false);
++			this.plugin.setMiniMapVisible(false);
++			this.plugin.setZoomButtonsVisible(false);
++			this.plugin.setZoomSliderVisible(false);
++
++			this.plugin.getPanel().setPreferredSize(
++					new Dimension(this.width, this.height));
++		}
++
++		public static class Builder {
++
++			private final MapViewPlugin plugin;
++			private int height, width;
++			private String formatName;
++
++			public Builder(MapViewPlugin plugin) {
++				this.plugin = plugin;
++			}
++
++			public Builder formatName(String formatName) {
++				this.formatName = formatName;
++				return this;
++			}
++
++			public Builder height(int height) {
++				this.height = height;
++				return this;
++			}
++
++			public Builder width(int width) {
++				this.width = width;
++				return this;
++			}
++
++			public Snapshoter build() {
++				return new Snapshoter(this);
++			}
++		}
++
++		public byte[] createScreenshot(Track track) throws IOException {
++			this.plugin.setTrack(track);
++			JPanel panel =  this.plugin.getPanel();
++			panel.setVisible(false);
++			panel.setVisible(true);
++
++			// layoutComponent that Map can load Tiles in background
++			// ComponentPainter.paintComponent(panel);
++
++			try {
++				TimeUnit.SECONDS.sleep(15);
++			} catch (InterruptedException e) {
++				// TODO Auto-generated catch block
++				e.printStackTrace();
++			}
++
++			BufferedImage bufferedImage = ComponentPainter
++					.paintComponent(panel);
++			ByteArrayOutputStream os = new ByteArrayOutputStream();
++			try {
++				ImageIO.write(bufferedImage, this.formatName, os);
++			} finally {
++				os.close();
++			}
++			return os.toByteArray();
++		}
++
++	}
++
++	public static Builder snapshoter() {
++		return snapshoter(new MapViewPlugin());
++	}
++
++	public static Builder snapshoter(MapViewPlugin plugin) {
++		return new Snapshoter.Builder(plugin);
++	}
++
++}
+Index: pom.xml
+===================================================================
+--- workspaces/gpx/gpx-ui-map/pom.xml	(revision 553)
++++ workspaces/gpx/gpx-ui-map/pom.xml	(working copy)
+@@ -31,6 +31,17 @@
+ 			<artifactId>swingx-ws</artifactId>
+ 			<version>1.0</version>
+ 		</dependency>
++		<dependency>
++			<groupId>org.jfree</groupId>
++			<artifactId>jfreechart</artifactId>
++			<version>1.0.15</version>
++		</dependency>
++		<dependency>
++			<groupId>junit</groupId>
++			<artifactId>junit</artifactId>
++			<version>4.10</version>
++			<scope>test</scope>
++		</dependency>
+ 	</dependencies>
+ 
+ 	<build>
+Index: src/main/java/de/c2tn/gps/ui/map/image/ComponentPainter.java
+===================================================================
+--- workspaces/gpx/gpx-ui-map/src/main/java/de/c2tn/gps/ui/map/image/ComponentPainter.java	(revision 0)
++++ workspaces/gpx/gpx-ui-map/src/main/java/de/c2tn/gps/ui/map/image/ComponentPainter.java	(revision 0)
+@@ -0,0 +1,41 @@
++package com.github.pfichtner.jrunalyser.ui.map.image;
++
++import java.awt.Component;
++import java.awt.Container;
++import java.awt.image.BufferedImage;
++
++import javax.swing.CellRendererPane;
++
++// http://stackoverflow.com/questions/4028898/create-an-image-from-a-non-visible-awt-component
++public class ComponentPainter {
++
++	public static BufferedImage paintComponent(Component c) {
++
++		// Set it to it's preferred size. (optional)
++		c.setSize(c.getPreferredSize());
++		layoutComponent(c);
++
++		BufferedImage img = new BufferedImage(c.getWidth(), c.getHeight(),
++				BufferedImage.TYPE_INT_RGB);
++
++		CellRendererPane crp = new CellRendererPane();
++		crp.add(c);
++		try {
++			crp.paintComponent(img.createGraphics(), c, crp, c.getBounds());
++			return img;
++		} finally {
++			crp.remove(c);
++		}
++	}
++
++	// from the example of user489041
++	public static void layoutComponent(Component c) {
++		synchronized (c.getTreeLock()) {
++			c.doLayout();
++			if (c instanceof Container)
++				for (Component child : ((Container) c).getComponents())
++					layoutComponent(child);
++		}
++	}
++
++}
+\ No newline at end of file
+Index: src/test/java/de/c2tn/gps/ui/map/image/MapViewAPITest.java
+===================================================================
+--- workspaces/gpx/gpx-ui-map/src/test/java/de/c2tn/gps/ui/map/image/MapViewAPITest.java	(revision 0)
++++ workspaces/gpx/gpx-ui-map/src/test/java/de/c2tn/gps/ui/map/image/MapViewAPITest.java	(revision 0)
+@@ -0,0 +1,50 @@
++package com.github.pfichtner.jrunalyser.ui.map.image;
++
++import java.io.FileOutputStream;
++import java.io.IOException;
++import java.io.InputStream;
++
++import junit.framework.TestCase;
++
++import org.junit.Test;
++
++import com.github.pfichtner.jrunalyser.base.data.jaxb.GpxUnmarshaller;
++import com.github.pfichtner.jrunalyser.base.data.stat.DefaultStatistics;
++import com.github.pfichtner.jrunalyser.base.data.track.DefaultTrack;
++import com.github.pfichtner.jrunalyser.base.data.track.Track;
++import com.github.pfichtner.jrunalyser.base.util.Validator;
++import com.github.pfichtner.jrunalyser.ui.map.image.MapViewAPI.Snapshoter;
++
++public class MapViewAPITest extends TestCase {
++
++	private static final Snapshoter snapshoter = MapViewAPI.snapshoter()
++			.formatName("jpg").width(160).height(120).build(); //$NON-NLS-1$
++
++	@Test
++	public void testCreateSnapshot() throws IOException {
++		byte[] createScreenshot = snapshoter.createScreenshot(loadTrack());
++
++		FileOutputStream fos = new FileOutputStream("/tmp/test.jpg"); //$NON-NLS-1$
++		try {
++			fos.write(createScreenshot);
++		} catch (Exception e) {
++			fos.close();
++		}
++	}
++
++	private Track loadTrack() throws IOException {
++		InputStream stream = getClass().getResourceAsStream(
++				"/Portland-Ape Cave.gpx");
++		try {
++			Track validated = Validator.validate(GpxUnmarshaller
++					.loadTrack(stream));
++			return new DefaultTrack(validated.getId(), validated.getMetadata(),
++					validated.getWaypoints(),
++					validated.getSegments(),
++					DefaultStatistics.ofTrack(validated));
++		} finally {
++			stream.close();
++		}
++	}
++
++}
+Index: .classpath
+===================================================================
+--- workspaces/gpx/gpx-ui-map/.classpath	(revision 553)
++++ workspaces/gpx/gpx-ui-map/.classpath	(working copy)
+@@ -2,7 +2,10 @@
+ <classpath>
+ 	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
+ 	<classpathentry kind="src" path="src/main/resources"/>
++	<classpathentry kind="src" path="src/test/java"/>
++	<classpathentry kind="src" path="src/test/resources"/>
+ 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+ 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
++	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+ 	<classpathentry kind="output" path="target/classes"/>
+ </classpath>

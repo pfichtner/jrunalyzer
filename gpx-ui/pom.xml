@@ -1,0 +1,228 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>gpx.ui</artifactId>
+	<packaging>jar</packaging>
+	<name>jrunalyser</name>
+	<url>http://www.projekt-URL.de</url>
+	<description>Desktop application to analyse your sport activities</description>
+	<organization>
+		<name>Peter Fichtner</name>
+		<url>https://github.com/pfichtner</url>
+	</organization>
+
+	<parent>
+		<groupId>com.github.pfichtner.jrunalyser</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.base</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ezware.oxbow</groupId>
+			<artifactId>TaskDialog</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.base</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.dockingframes</groupId>
+			<artifactId>docking-frames-common</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+
+		<!-- runtime -->
+
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.cal</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.map</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.mapprofile</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.trackstats</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.overallstats</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.tracklist</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.trackcompare</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.lapinfo</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pfichtner.jrunalyser</groupId>
+			<artifactId>gpx.ui.importlistener</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>webstart-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jnlp</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<excludeTransitive>false</excludeTransitive>
+					<libPath>lib</libPath>
+					<jnlp>
+						<outputFile>${project.name}.jnlp</outputFile>
+						<mainClass>com.github.pfichtner.jrunalyser.ui.dock.Dock</mainClass>
+					</jnlp>
+
+					<!-- <pack200>true</pack200> -->
+					<gzip>true</gzip>
+					<outputJarVersions>true</outputJarVersions>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<shadedArtifactAttached>true</shadedArtifactAttached> <!-- Make the shaded artifact not the main one -->
+					<shadedClassifierName>shaded</shadedClassifierName> <!-- set the suffix to the shaded jar -->
+					<filters>
+						<filter>
+							<!-- Exclude files that sign a jar (one or multiple of the dependencies). 
+								One may not repack a signed jar without this, or you will get a SecurityException 
+								at program start. -->
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+								<exclude>META-INF/*.INF</exclude> <!-- This one may not be required -->
+							</excludes>
+						</filter>
+					</filters>
+					<transformers>
+						<!-- This bit sets the main class for the executable jar as you otherwise -->
+						<!-- would with the assembly plugin -->
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<manifestEntries>
+								<Main-Class>my_main class from project1</Main-Class>
+							</manifestEntries>
+						</transformer>
+						<!-- This bit merges the various META-INF/services files -->
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+					</transformers>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+				<artifactId>launch4j-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>l4j-gui</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<headerType>gui</headerType>
+							<outfile>target/${project.name}.exe</outfile>
+							<jar>target/${project.artifactId}-${project.version}-shaded.jar</jar> <!-- 'shaded' is the value set on shadedClassifierName above -->
+							<errTitle>Error</errTitle>
+							<classPath>
+								<mainClass>de.c2tn.gps.ui.dock.Dock</mainClass>
+							</classPath>
+							<icon>src/main/resources/run.ico</icon>
+							<jre>
+								<minVersion>1.5.0</minVersion>
+								<initialHeapSize>64</initialHeapSize>
+								<maxHeapSize>1024</maxHeapSize>
+							</jre>
+							<versionInfo>
+								<!-- version must not contain -SNAPSHOT! (net.sf.launch4j.BuilderException: 
+									Invalid data: File version, should be 'x.x.x.x') -->
+								<fileVersion>1.0.0.0</fileVersion>
+								<txtFileVersion>1.0.0.0</txtFileVersion>
+								<fileDescription>Desc</fileDescription>
+								<copyright>C</copyright>
+								<productVersion>1.0.0.0</productVersion>
+								<txtProductVersion>1.0.0.0</txtProductVersion>
+								<productName>${project.name}</productName>
+								<internalName>${project.name}</internalName>
+								<originalFilename>${project.name}.exe</originalFilename>
+							</versionInfo>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+		</plugins>
+	</build>
+
+</project>

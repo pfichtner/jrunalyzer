@@ -1,0 +1,187 @@
+Verarbeiten von GPX nur mit Metadaten, z.B. 40 Minuten Laufband
+
+
+
+
+
+
+
+TextBoxen in MapView organisieren (nicht übereinander, automatisches Layout)
+// http://geosoft.no/graphics/
+// http://www.javadocexamples.com/org/jfree/chart/plot/org.jfree.chart.plot.PieLabelDistributor-source.html
+
+
+
+21.05.2012: 			19.06.12							19.04.13	12.04.13	27.08.12	23.04.13
+27.08.2012:	21.05.12	19.06.12	30.11.12	29.05.12	19.04.13	12.04.13	27.08.12	23.04.13
+
+
+Mon May 21 17:26:53 CEST 2012 vs. Fri Nov 30 16:55:54 CET 2012
+maxDiff is DefaultDistance [distanceUnit=METERS, value=150.34286524293918]
+Amount of Waypoints diffs < DefaultDistance [distanceUnit=METERS, value=150.0]: 11 of 12 waypoints
+11 DefaultDistance [distanceUnit=METERS, value=150.34286524293918]
+
+Mon May 21 17:26:53 CEST 2012 vs. Tue May 29 18:56:41 CEST 2012
+maxDiff is DefaultDistance [distanceUnit=METERS, value=151.39411763788664]
+Amount of Waypoints diffs < DefaultDistance [distanceUnit=METERS, value=150.0]: 11 of 12 waypoints
+11 DefaultDistance [distanceUnit=METERS, value=151.39411763788664]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Caused by: java.lang.IllegalStateException: Mon Sep 17 19:58:27 CEST 2012 < Mon Sep 17 19:59:23 CEST 2012 (DefaultTrackPointWithLink [delegate=DefaultWayPoint [latitude=48.777333, longitude=8.445278, ele=669, time=1347904763000], link=DefaultLink [next=19699107, elevationDifference=0, distance=DefaultDistance [distanceUnit=METERS, value=14.308413517802778], duration=DefaultDuration[timeUnit=MILLISECONDS, value=1000.0], speed=0.014308413517802779 METERS per MILLISECONDS, gradient=DefaultGradient [value=0.0, distanceUnit=METERS]]] DefaultTrackPointWithLink [delegate=DefaultWayPoint [latitude=48.772945, longitude=8.443272, ele=678, time=1347904707000], link=DefaultLink [next=1313585, elevationDifference=0, distance=DefaultDistance [distanceUnit=METERS, value=14.792778641394431], duration=DefaultDuration[timeUnit=MILLISECONDS, value=1000.0], speed=0.014792778641394432 METERS per MILLISECONDS, gradient=DefaultGradient [value=0.0, distanceUnit=METERS]]]
+
+
+
+
+
+
+
+
+Track -> SimpleTrack Stats via DataSource laden
+
+Spring/OSGi Umstellung
+
+Event bei Multiselektion: OverallStats für selektierte Tracks, damit z.B. möglich: Alle Tracks im aktuellen Jahr selektieren
+
+Icons für alle Panels
+
+Kalender, Auswahl Monat/Jahr
+
+
+***Einen ganzen Datastore mal gegeneinader vergleichen (jeder Track gegen jeden oder alle Tracks mit gleichem Namen)
+---> Wie groß die Abweichung bei Segmentierung in 4,6,8,10,12,20,xxx Teile?
+!!!! Wurstberg 07.04.!
+29-06. 10.06. 01-07 06.01 VS 30.03. 01.07. 23.12
+
+
+Exceptions beim Startup
+frame.addWindowListener(new WindowAdapter() {
+             public void windowClosing(WindowEvent e) {
+               System.exit(0);
+             }
+          });
+
+
+Neues Plugin: Swing-Import Notifier: Zeigt neue Rekorde (Platz 1-3 auf 400m, Cooper, 1km, 2km, ..., 5km, ...) 
+
+Wetter-Modul: http://stackoverflow.com/questions/951839/api-to-get-weather-based-on-longitude-and-latitude-coordinates
+http://openweathermap.org/maps?zoom=11&lat=48.797871&lon=8.43617&layers=BFTFFFT
+
+
+Beim Track-Import sollten Module neue Werte einfügen dürfen, also Map<String,Method> (Attribut, write-Method), z.B. Name/Description weil ähnliche Strecken einen eindeutigen Namen haben
+
+Aus der TrackTable sollte auch Tracks löschbar sein (nicht nur aus dem Kalender)
+
+TrackTable: Screenshot der Karte als Icon
+
+Bei Overlay ebenfalls SelectedWaypointRenderer? Dann wäre via "Profil" auf der Zeitachse ein Vergleich möglich
+
+Climb-Detection
+
+Fast erledigt: Sektionsgrenzen: "1km" statt "1", siehe z.B. http://www.gpsies.com/map.do?fileId=atidobqnvwhmknly
+
+
+
+
+
+
+
+
+
+
+
+Z-Ordering bei Overlay
+
+Funktion von Renderer ins TableModel verlagern
+Diff in Vergleich mit Prozenten als Differenz zu einem Referenzwert in der Liste
+Roter Map-Pointer könnte noch eine Box malen, mit Infos zum drunterliegenden Waypoint
+
+
+
+Exclude from Stats, alles was description *EXCLUDE* hat!?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Background Initializer
+
+
+
+
+
+Map Screenshot in Tabelle
+TrackDiff Table: Relative Differenz (Distanz, Zeiten, ...)
+
+
+
+
+
+
+
+FloatingSegmenter optimieren via add/substract
+Vorher: TC für diesen Segmenter auf Basis einer Beispiel GPX
+http://www.gpswandern.de/gpxviewer/gpxshow.shtml?url=http://www.topografix.com/fells_loop.gpx
+
+------------------------------------------------------------------------
+
+http://www.endomondo.com/stats/sport/ http://www.endomondo.com/stats/
+Total Training Overview (Distance, Duration, Ascend) this week, this month, ...
+
+------------------------------------------------------------------------
+
+Real Datasource (File Based for the first time)
+
+------------------------------------------------------------------------
+
+Aufsplitten in zwei Projekte: calendar-base und gpx-calendar
+Korrekter Umgang mit Icons im Kalender, Zugriff auf das korrekte Event (derzeit Event #0)
+
+------------------------------------------------------------------------
+
+Gehpausensegmenter: Segmenter welche in Pausen/Nicht-Pausen segmentiert, einstellbarer Grenzwert
+Roundtripsegmenter: Segmenter der Rundstrecken erkennt
+
+------------------------------------------------------------------------
+
+Compress using Douglas Peucker algorithmen
+
+------------------------------------------------------------------------
+
+UploadModule: Endomondo, sportstracker, gpsies.com, GPS-Sport.net, ...
+

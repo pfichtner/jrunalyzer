@@ -30,16 +30,21 @@ JRunalayzer showing the comparison view and three segmented (by time) tracks ove
 ![JRunalayzer Screenshot 5](/docs/screenshots/jrunalayzer5.png?raw=true)
 JRunalayzer showing the segment view and three segmented (by distance) tracks overlayed
 
+##How to run it
+The JAR is a runnable JAR so you can just double click it. Alternativly you can call it on the command line and pass additionally arguments to the VM (see below): 
+```
+java jrunalayzer-vX.X.X.jar
+```
+
+##Tips & tricks
+* If you'd like to use Nimbus L&F but it's not the default L&F of you VM you can pass -Dswing.defaultlaf=com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel when running the JAR
+* If your computer is behind a firewall you can pass java the environment variables http.proxyHost and http.proxyPort, e.g. -Dhttp.proxyHost=proxy.foo.bar -Dhttp.proxyPort=8080
 
 ##Current limitations
 * Calendar plugin uses hard coded icon displaying all tracks as type "running"
 * Only file based datasource provided (files places in $HOME/gpx)
 
-##Tips & tricks
-* If your computer is behind a firewall you can pass java the environment variables http.proxyHost and http.proxyPort, e.g. -Dhttp.proxyHost=proxy.foo.bar -Dhttp.proxyPort=8080
-
-
-#Plugins
+##Plugins
 JRunalayzer itself is just the Dock without any content. All views shown inside are implemented as plugins. 
 JRunalayzer comes with the following base plugins: 
 * Calendar plugin: Shows tracks in a calendar view

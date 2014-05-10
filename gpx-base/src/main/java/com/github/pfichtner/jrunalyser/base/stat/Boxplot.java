@@ -2,7 +2,7 @@ package com.github.pfichtner.jrunalyser.base.stat;
 
 import java.util.Arrays;
 
-public final class Spike {
+public final class Boxplot {
 
 	private final double[] values;
 
@@ -32,7 +32,7 @@ public final class Spike {
 
 	}
 
-	public Spike(double[] values) {
+	public Boxplot(double[] values) {
 		this.values = sort(values.clone());
 	}
 
@@ -67,11 +67,11 @@ public final class Spike {
 		return fences(3.0);
 	}
 
-	public Spike.InterquatileRange fences(double m) {
+	public InterquatileRange fences(double m) {
 		double q3 = q3();
 		double q1 = q1();
-		double r = (q3 - q1) * m;
-		return new Spike.InterquatileRange(q1 - r, q3 + r);
+		double iqr = (q3 - q1) * m;
+		return new InterquatileRange(q1 - iqr, q3 + iqr);
 	}
 
 	public double[] getValues() {

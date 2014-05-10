@@ -46,8 +46,8 @@ import com.github.pfichtner.jrunalyser.base.data.Speed;
 import com.github.pfichtner.jrunalyser.base.data.WayPoint;
 import com.github.pfichtner.jrunalyser.base.data.stat.Predicates;
 import com.github.pfichtner.jrunalyser.base.data.track.Track;
-import com.github.pfichtner.jrunalyser.base.stat.Spike;
-import com.github.pfichtner.jrunalyser.base.stat.Spike.InterquatileRange;
+import com.github.pfichtner.jrunalyser.base.stat.Boxplot;
+import com.github.pfichtner.jrunalyser.base.stat.Boxplot.InterquatileRange;
 import com.github.pfichtner.jrunalyser.di.Inject;
 import com.github.pfichtner.jrunalyser.ui.base.AbstractUiPlugin;
 import com.github.pfichtner.jrunalyser.ui.base.GridDataProvider;
@@ -342,10 +342,10 @@ public class MapProfilePlugin extends AbstractUiPlugin implements
 			public NumberAxis createNumberAxis(Track track) {
 				NumberAxis axis = super.createNumberAxis(track);
 				axis.setInverted(true);
-				Spike spike = new Spike(Doubles.toArray(FluentIterable
+				Boxplot boxplot = new Boxplot(Doubles.toArray(FluentIterable
 						.from(track.getTrackpoints()).filter(hasLink())
 						.transform(paceFunction).toList()));
-				InterquatileRange innerFences = spike.innerFences();
+				InterquatileRange innerFences = boxplot.innerFences();
 				axis.setRange(new Range(innerFences.getLower(), innerFences
 						.getUpper()));
 				axis.setAutoRangeIncludesZero(false);

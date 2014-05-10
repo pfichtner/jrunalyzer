@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class SpikeTest {
+public class BoxplotTest {
 
-	private final Spike spike = new Spike(new double[] { 71, 70, 73, 70, 70,
+	private final Boxplot spike = new Boxplot(new double[] { 71, 70, 73, 70, 70,
 			69, 70, 72, 71, 300, 71, 69 });
 
 	@Test
@@ -19,9 +19,9 @@ public class SpikeTest {
 	@Test
 	public void testMedianOddEven() {
 		assertEquals(Double.valueOf(2),
-				Double.valueOf(new Spike(new double[] { 1, 3, 2 }).median()));
+				Double.valueOf(new Boxplot(new double[] { 1, 3, 2 }).median()));
 		assertEquals(Double.valueOf(2.5),
-				Double.valueOf(new Spike(new double[] { 3, 1, 3, 2 }).median()));
+				Double.valueOf(new Boxplot(new double[] { 3, 1, 3, 2 }).median()));
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class SpikeTest {
 
 	@Test
 	public void testInnerFences() {
-		Spike.InterquatileRange interquatileRange = this.spike.innerFences();
+		Boxplot.InterquatileRange interquatileRange = this.spike.innerFences();
 		assertEquals(Double.valueOf(67.75),
 				Double.valueOf(interquatileRange.getLower()));
 		assertEquals(Double.valueOf(73.75),
@@ -50,7 +50,7 @@ public class SpikeTest {
 
 	@Test
 	public void testOuterFences() {
-		Spike.InterquatileRange interquatileRange = this.spike.outerFences();
+		Boxplot.InterquatileRange interquatileRange = this.spike.outerFences();
 		assertEquals(Double.valueOf(65.5),
 				Double.valueOf(interquatileRange.getLower()));
 		assertEquals(Double.valueOf(76),

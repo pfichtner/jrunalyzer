@@ -12,6 +12,10 @@ public class LatitudeFormatter {
 	private final DecimalFormat wholeFormatter;
 	private final DecimalFormat fractionFormatter;
 
+	public LatitudeFormatter() {
+		this(Locale.getDefault());
+	}
+
 	public LatitudeFormatter(Locale locale) {
 		this(new DecimalFormatSymbols(locale));
 	}

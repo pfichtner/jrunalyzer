@@ -63,3 +63,6 @@ JRunalayzer comes with the following base plugins:
 * Plugin/module concept (very easy to write your own plugin)
 * Architecture: No frame (plugin/module) does depend on any other frame (plugin/module)
 * Full i18n support
+
+## License
+Copyright 2012-2014 Peter Fichtner - Released under the [Apache 2.0 license](http://www.apache.org/licenses/LICENSE-2.0.html)

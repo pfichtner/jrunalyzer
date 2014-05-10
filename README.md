@@ -11,6 +11,24 @@ GPX files can be imported using the application itselfs or alternativly placed d
 * Similar tracks auto-detection
 * Common waypoint support
 
+
+
+![JRunalayzer Screenshot 1](/docs/screenshots/jrunalayzer1.png?raw=true)
+JRunalayzer with calendar, track list, and statistics
+
+![JRunalayzer Screenshot 2](/docs/screenshots/jrunalayzer2.png?raw=true)
+JRunalayzer with calendar, profile, and statistics
+
+![JRunalayzer Screenshot 3](/docs/screenshots/jrunalayzer3.png?raw=true)
+JRunalayzer showing the comparison view and three segmented (by time) tracks overlayed
+
+![JRunalayzer Screenshot 4](/docs/screenshots/jrunalayzer4.png?raw=true)
+JRunalayzer showing the comparison view and three segmented (by time) tracks overlayed
+
+![JRunalayzer Screenshot 5](/docs/screenshots/jrunalayzer5.png?raw=true)
+JRunalayzer showing the segment view and three segmented (by distance) tracks overlayed
+
+
 ##Current limitations
 * Calendar plugin used hard coded icon displaying all tracks as type "running"
 * Only file based datasource provided (files places in $HOME/gpx)

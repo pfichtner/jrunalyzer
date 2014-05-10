@@ -39,6 +39,7 @@ java jrunalayzer-vX.X.X.jar
 ##Tips & tricks
 * If you'd like to use Nimbus L&F but it's not the default L&F of you VM you can pass -Dswing.defaultlaf=com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel when running the JAR
 * If your computer is behind a firewall you can pass java the environment variables http.proxyHost and http.proxyPort, e.g. -Dhttp.proxyHost=proxy.foo.bar -Dhttp.proxyPort=8080
+* When closing JRunalayzer stores the layout of the dock in your $HOME directory ($HOME/.jrunalyser/) and restores the layout upon next start. If you like to start with the default layout just delete the content of the directory or the whole directory
 
 ##Current limitations
 * Calendar plugin uses hard coded icon displaying all tracks as type "running"

@@ -1,5 +1,6 @@
 package com.github.pfichtner.jrunalyser.ui.mapprofile;
 
+import static com.github.pfichtner.jrunalyser.base.data.stat.Predicates.LinkedWayPoints.hasLink;
 import static com.google.common.collect.Iterables.filter;
 
 import java.awt.BasicStroke;
@@ -45,6 +46,8 @@ import com.github.pfichtner.jrunalyser.base.data.Speed;
 import com.github.pfichtner.jrunalyser.base.data.WayPoint;
 import com.github.pfichtner.jrunalyser.base.data.stat.Predicates;
 import com.github.pfichtner.jrunalyser.base.data.track.Track;
+import com.github.pfichtner.jrunalyser.base.stat.Spike;
+import com.github.pfichtner.jrunalyser.base.stat.Spike.InterquatileRange;
 import com.github.pfichtner.jrunalyser.di.Inject;
 import com.github.pfichtner.jrunalyser.ui.base.AbstractUiPlugin;
 import com.github.pfichtner.jrunalyser.ui.base.GridDataProvider;
@@ -58,9 +61,11 @@ import com.github.pfichtner.jrunalyser.ui.mapprofile.config.MovingAverageConfigD
 import com.github.pfichtner.jrunalyser.ui.mapprofile.config.StrokeRendererConfigDecorator;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.google.common.primitives.Doubles;
 
 public class MapProfilePlugin extends AbstractUiPlugin implements
 		GridDataProvider {
@@ -72,9 +77,9 @@ public class MapProfilePlugin extends AbstractUiPlugin implements
 
 	private EventBus eventBus;
 
-	private final static List<DatasetConfig> configs = ImmutableList.of(
-			createElevationConfig(), createSpeedConfig(),
-			createGradientConfig());
+	private final static List<DatasetConfig> configs = ImmutableList
+			.of(createElevationConfig(), createPaceConfig(),
+					createGradientConfig());
 
 	private static final int MOVING_AVG_VALUE = 100;
 
@@ -322,13 +327,14 @@ public class MapProfilePlugin extends AbstractUiPlugin implements
 		return renderer;
 	}
 
-	private static DatasetConfig createSpeedConfig() {
+	private static DatasetConfig createPaceConfig() {
+		final Function<LinkedTrackPoint, Double> paceFunction = createPaceFunction(
+				TimeUnit.MINUTES, DistanceUnit.KILOMETERS);
 		DatasetConfig config = new DatasetConfigDelegate(
 				new DefaultDatasetConfig.Builder(1)
 						.description(
 								i18n.getText("com.github.pfichtner.jrunalyser.ui.mapprofile.MapProfilePlugin.pace")) //$NON-NLS-1$
-						.yFunc(createPaceFunction(TimeUnit.MINUTES,
-								DistanceUnit.KILOMETERS))
+						.yFunc(paceFunction)
 						.renderer(
 								rendererColor(new StandardXYItemRenderer(),
 										Color.ORANGE)).build()) {
@@ -336,7 +342,12 @@ public class MapProfilePlugin extends AbstractUiPlugin implements
 			public NumberAxis createNumberAxis(Track track) {
 				NumberAxis axis = super.createNumberAxis(track);
 				axis.setInverted(true);
-				axis.setAutoRange(true);
+				Spike spike = new Spike(Doubles.toArray(FluentIterable
+						.from(track.getTrackpoints()).filter(hasLink())
+						.transform(paceFunction).toList()));
+				InterquatileRange innerFences = spike.innerFences();
+				axis.setRange(new Range(innerFences.getLower(), innerFences
+						.getUpper()));
 				axis.setAutoRangeIncludesZero(false);
 				return axis;
 			}

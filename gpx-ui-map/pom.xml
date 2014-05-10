@@ -6,19 +6,19 @@
 	<parent>
 		<groupId>com.github.pfichtner.jrunalyser</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.base</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.base</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.swinglabs</groupId>

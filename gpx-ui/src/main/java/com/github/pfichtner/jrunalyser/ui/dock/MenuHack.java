@@ -160,13 +160,10 @@ public final class MenuHack {
 		};
 
 		ButtonGroup buttonGroup = new ButtonGroup();
-		segDistanceMenu
-				.add(setSelected(register(
-						new JRadioButtonMenuItem(
-								getI18n()
-										.getText(
-												"com.github.pfichtner.jrunalyser.ui.dock.MenuHack.off")), //$NON-NLS-1$
-						buttonGroup, listenerDistance)));
+		result.add(setSelected(register(
+				new JRadioButtonMenuItem(getI18n().getText(
+						"com.github.pfichtner.jrunalyser.ui.dock.MenuHack.off")), //$NON-NLS-1$
+				buttonGroup, listenerDistance)));
 		segDistanceMenu
 				.add(register(
 						new DistanceJRadioButtonMenuItem(DefaultDistance.of(
@@ -208,13 +205,6 @@ public final class MenuHack {
 
 		JMenu segTimeMenu = new JMenu(getI18n().getText(
 				"com.github.pfichtner.jrunalyser.ui.dock.MenuHack.mTime.title")); //$NON-NLS-1$
-		segTimeMenu
-				.add(setSelected(register(
-						new JRadioButtonMenuItem(
-								getI18n()
-										.getText(
-												"com.github.pfichtner.jrunalyser.ui.dock.MenuHack.off")), //$NON-NLS-1$
-						buttonGroup, listenerTime)));
 		segTimeMenu.add(register(new DurationJRadioButtonMenuItem(
 				DefaultDuration.of(1, TimeUnit.MINUTES)), buttonGroup,
 				listenerTime));
@@ -268,13 +258,10 @@ public final class MenuHack {
 		};
 
 		ButtonGroup buttonGroup = new ButtonGroup();
-		hlDistance
-				.add(setSelected(register(
-						new JRadioButtonMenuItem(
-								getI18n()
-										.getText(
-												"com.github.pfichtner.jrunalyser.ui.dock.MenuHack.off")), buttonGroup, //$NON-NLS-1$
-						listener)));
+		result.add(setSelected(register(
+				new JRadioButtonMenuItem(getI18n().getText(
+						"com.github.pfichtner.jrunalyser.ui.dock.MenuHack.off")), buttonGroup, //$NON-NLS-1$
+				listener)));
 
 		for (Distance distance : Distances.getDefaultDistances()) {
 			hlDistance.add(register(new DistanceJRadioButtonMenuItem(distance),
@@ -283,10 +270,6 @@ public final class MenuHack {
 
 		JMenu hlTime = new JMenu(getI18n().getText(
 				"com.github.pfichtner.jrunalyser.ui.dock.MenuHack.mTime.title")); //$NON-NLS-1$
-		hlTime.add(setSelected(register(
-				new JRadioButtonMenuItem(getI18n().getText(
-						"com.github.pfichtner.jrunalyser.ui.dock.MenuHack.off")), buttonGroup, //$NON-NLS-1$
-				listener)));
 
 		for (Duration duration : Durations.getDefaultDurations()) {
 			hlTime.add(register(new DurationJRadioButtonMenuItem(duration),

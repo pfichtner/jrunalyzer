@@ -2,19 +2,28 @@ package com.github.pfichtner.jrunalyser.base.util.format;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import java.util.Locale;
 
-import com.github.pfichtner.jrunalyser.base.util.format.LatLonFormatter;
+import org.junit.Test;
 
 public class LatLonFormatterTest {
 
-	@Ignore
-	// ignored since Locale dependent
 	@Test
-	public void testSearsTowerChicago() {
+	public void testSearsTowerChicago_us() {
+		LatLonFormatter latLonFormatter = new LatLonFormatter(Locale.US);
+		assertEquals("N41° 52.736 W087° 38.185",
+				formatSearsTowerChicago(latLonFormatter));
+	}
+
+	@Test
+	public void testSearsTowerChicago_de() {
+		LatLonFormatter latLonFormatter = new LatLonFormatter(Locale.GERMANY);
 		assertEquals("N41° 52,736 W087° 38,185",
-				LatLonFormatter.instance.format(41.878928, -87.636417));
+				formatSearsTowerChicago(latLonFormatter));
+	}
+
+	public String formatSearsTowerChicago(LatLonFormatter formatter) {
+		return formatter.format(41.878928, -87.636417);
 	}
 
 }

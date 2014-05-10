@@ -1,5 +1,8 @@
 package com.github.pfichtner.jrunalyser.base.util.format;
 
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 import com.github.pfichtner.jrunalyser.base.data.Coordinate;
 
 public class LatLonFormatter {
@@ -12,7 +15,12 @@ public class LatLonFormatter {
 	private final LongitudeFormatter longitudeFormatter;
 
 	public LatLonFormatter() {
-		this(new LatitudeFormatter(), new LongitudeFormatter());
+		this(Locale.getDefault());
+	}
+
+	public LatLonFormatter(Locale locale) {
+		this(new LatitudeFormatter(new DecimalFormatSymbols(locale)),
+				new LongitudeFormatter(new DecimalFormatSymbols(locale)));
 	}
 
 	public LatLonFormatter(LatitudeFormatter latitudeFormatter,

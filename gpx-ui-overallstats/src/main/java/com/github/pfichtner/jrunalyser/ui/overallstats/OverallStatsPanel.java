@@ -16,6 +16,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -58,6 +59,7 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
 import com.google.common.collect.Ordering;
@@ -92,6 +94,7 @@ public class OverallStatsPanel extends JPanel {
 	private JTextField longestDistance;
 
 	private JTextField mostWorkouts;
+	private JTextField mostActiveWeekDay;
 	private JTextField mostActiveMonth;
 
 	private JTextField topSpeed;
@@ -189,6 +192,13 @@ public class OverallStatsPanel extends JPanel {
 				getI18n()
 						.getText(
 								"com.github.pfichtner.jrunalyser.ui.overallstats.OverallStatsPanel.mostWorkouts.title"), row++); //$NON-NLS-1$
+
+		this.mostActiveWeekDay = createTextField(
+				pnl,
+				getI18n()
+						.getText(
+								"com.github.pfichtner.jrunalyser.ui.overallstats.OverallStatsPanel.mostActiveWeekDay.title"), row++); //$NON-NLS-1$
+
 		this.mostActiveMonth = createTextField(
 				pnl,
 				getI18n()
@@ -506,9 +516,20 @@ public class OverallStatsPanel extends JPanel {
 										week,
 										String.valueOf(byWeek.count(week))));
 
-				Multiset<String> bySingleMonth = groupBy(allIds, format("MMMM")); //$NON-NLS-1$
-				String singleMonth = Iterators.get(bySingleMonth.iterator(), 0);
+				Multiset<String> byDayOfWeek = groupBy(allIds, format("E")); //$NON-NLS-1$
+				List<String> texts = Lists.newArrayList();
+				for (String day : byDayOfWeek.elementSet()) {
+					texts.add(getI18n()
+							.getText(
+									"com.github.pfichtner.jrunalyser.ui.overallstats.OverallStatsPanel.mostActiveWeekDay.format", //$NON-NLS-1$
+									day,
+									Integer.valueOf(byDayOfWeek.count(day))));
 
+				}
+				this.mostActiveWeekDay.setText(Joiner.on(", ").join(texts)); //$NON-NLS-1$
+
+				Multiset<String> bySingleMonth = groupBy(allIds, format("MMMM")); //$NON-NLS-1$
+				String singleMonth = Iterables.get(bySingleMonth, 0);
 				this.mostActiveMonth
 						.setText(getI18n()
 								.getText(
@@ -750,9 +771,10 @@ public class OverallStatsPanel extends JPanel {
 			@Override
 			public String apply(Id id) {
 				try {
-					return this.sdf.format(new Date(OverallStatsPanel.this.dsf
-							.loadTrack(id).getTrackpoints().get(0).getTime()
-							.longValue()));
+					return this.sdf.format(new Date(Tracks
+							.getStartPoint(
+									OverallStatsPanel.this.dsf.loadTrack(id))
+							.getTime().longValue()));
 				} catch (IOException e) {
 					throw Throwables.propagate(e);
 				}
@@ -762,9 +784,7 @@ public class OverallStatsPanel extends JPanel {
 
 	private Multiset<String> groupBy(Set<Id> ids, Function<Id, String> f) {
 		Multiset<String> ms = HashMultiset.create();
-		for (Id id : ids) {
-			ms.add(f.apply(id));
-		}
+		Iterables.addAll(ms, FluentIterable.from(ids).transform(f));
 		return Multisets.copyHighestCountFirst(ms);
 	}
 

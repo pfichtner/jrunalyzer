@@ -3,13 +3,13 @@
 JRunalayzer is a FAT-Client DockingFrame based Swing application for managing and displaying GPX files. 
 GPX files can be imported using the application itselfs or alternativly placed directly in the $HOME/gpx directory. 
 
-Why no Web-based application? I disliked the idea that I lose control over my GPX files: Less the thought that the files contain sensitive data but more not to know if it's possible to retrieve the upladed data months later as GPX files again. 
+Why no Web-based application? I disliked the idea that I lose control over my GPX files: Less the thought that the files contain sensitive data but more not to know if it's possible to retrieve the uploaded data months later as GPX files again. 
 
 ## Download
 You can download the latest release from github's release page: [latest JRunalayzer release](https://github.com/pfichtner/jrunalyzer/releases/latest)
 
 ## How to run it
-The JAR is a runnable JAR so you can just double click it. Alternativly you can call it on the command line and pass additionally arguments to the VM (see below): 
+The JAR is a runnable JAR so you can just double click it. Alternativly you can call it on the command line and pass additionally arguments to the VM (see [Tips & tricks](#Tips & tricks)): 
 ```
 java jrunalayzer-vX.X.X.jar
 ```
@@ -59,7 +59,7 @@ JRunalayzer comes with the following base plugins:
 * Profile plugin: Show elevation, speed and grade as chart
 * Statistic plugin: Show statistics of actual loaded track
 * Overall statistic plugin: Show statistics of all known tracks
-*  Tracklist plugin: Show all known tracks as list including some statistics
+* Tracklist plugin: Show all known tracks as list including some statistics
 * Track compare plugin: List tracks that are similar to the actual loaded track including some statistics
 * Lap info plugin: Show statictis of the track's segments (when track is segmented)
 
@@ -67,7 +67,7 @@ JRunalayzer comes with the following base plugins:
 * Platform independent (pure Java), runs on all Java supported platforms
 * Scalable: Takes advantage of running on a multicore (CPU) machine
 * Plugin/module concept (very easy to write your own plugin)
-* Architecture: No frame (plugin/module) does depend on any other frame (plugin/module)
+* Architecture: No frame (plugin/module) does depend on any other frame (plugin/module) (* some plugins softly depend on messages sent by other plugins)
 * Full i18n support
 * All classes for doing calculation/statistics reside in a separate non-UI module so ths JAR can be used in several environmens (UI, batch processing, Web, ...)
 

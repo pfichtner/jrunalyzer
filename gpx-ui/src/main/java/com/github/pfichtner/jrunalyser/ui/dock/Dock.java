@@ -548,21 +548,22 @@ public class Dock {
 		JMenu jMenu = new JMenu(TITLE);
 		JMenuItem menuItem = new JMenuItem(
 				i18n.getText("com.github.pfichtner.jrunalyser.ui.dock.Dock.miAddGpx.title")); //$NON-NLS-1$
+		// TODO Should this be done inside a SwingWorker?
 		menuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
 				JFileChooser chooser = new JFileChooser();
-                chooser.setMultiSelectionEnabled(true);
+				chooser.setMultiSelectionEnabled(true);
 				if (chooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
-                    File[] selectedFiles = chooser.getSelectedFiles();
-                    for (File selectedFile : selectedFiles) {
-                         try {
-                            Track track = GpxUnmarshaller.loadTrack(selectedFile);
-                            datasourceFascade.addTrack(track);
-                        } catch (IOException e) {
-                            throw Throwables.propagate(e);
-                        }
-                    }
+					for (File selectedFile : chooser.getSelectedFiles()) {
+						try {
+							Track track = GpxUnmarshaller
+									.loadTrack(selectedFile);
+							datasourceFascade.addTrack(track);
+						} catch (IOException e) {
+							throw Throwables.propagate(e);
+						}
+					}
 				}
 			}
 		});

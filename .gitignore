@@ -12,3 +12,8 @@
 hs_err_pid*
 /velocity.log
 /target
+
+#intellij idea configuration files
+*.ipr
+*.iws
+*.iml

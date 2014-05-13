@@ -2,6 +2,7 @@ package com.github.pfichtner.jrunalyser.ui.dock;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static org.eknet.swing.task.Mode.BLOCKING;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -17,6 +18,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +35,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
+import org.eknet.swing.task.AbstractTask;
+import org.eknet.swing.task.TaskManager;
+import org.eknet.swing.task.Tracker;
+import org.eknet.swing.task.impl.TaskManagerImpl;
+import org.eknet.swing.task.ui.TaskGlassPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -314,6 +321,9 @@ public class Dock {
 		// center
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+
+		TaskManager tm = new TaskManagerImpl();
+		frame.setGlassPane(new TaskGlassPane(tm));
 	}
 
 	private static void initInBackground(final DatasourceFascade dsf) {
@@ -461,17 +471,11 @@ public class Dock {
 			result.add(new Callable<Track>() {
 				@Override
 				public Track call() throws IOException {
-					try {
-						log.debug("Loading {}", file); //$NON-NLS-1$
-						Track addedTrack;
-						addedTrack = dataSource.addTrack(file);
-						log.info("{} loaded", file); //$NON-NLS-1$
-						return addedTrack;
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						throw e;
-					}
+					log.debug("Loading {}", file); //$NON-NLS-1$
+					Track addedTrack;
+					addedTrack = dataSource.addTrack(file);
+					log.info("{} loaded", file); //$NON-NLS-1$
+					return addedTrack;
 				}
 			});
 
@@ -548,22 +552,64 @@ public class Dock {
 		JMenu jMenu = new JMenu(TITLE);
 		JMenuItem menuItem = new JMenuItem(
 				i18n.getText("com.github.pfichtner.jrunalyser.ui.dock.Dock.miAddGpx.title")); //$NON-NLS-1$
-		// TODO Should this be done inside a SwingWorker?
+
 		menuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
 				JFileChooser chooser = new JFileChooser();
 				chooser.setMultiSelectionEnabled(true);
 				if (chooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
-					for (File selectedFile : chooser.getSelectedFiles()) {
-						try {
-							Track track = GpxUnmarshaller
-									.loadTrack(selectedFile);
-							datasourceFascade.addTrack(track);
-						} catch (IOException e) {
-							throw Throwables.propagate(e);
+					File[] selectedFiles = chooser.getSelectedFiles();
+
+					Component glassPane = parent.getGlassPane();
+					if (glassPane instanceof TaskGlassPane) {
+						TaskGlassPane taskGlassPane = (TaskGlassPane) glassPane;
+						TaskManager tm = taskGlassPane.getTaskManager();
+
+						int cpus = Runtime.getRuntime().availableProcessors();
+						List<List<File>> partitions = Lists.partition(
+								Arrays.asList(selectedFiles),
+								(selectedFiles.length + cpus - 1) / cpus);
+						for (final List<File> files : partitions) {
+							tm.create(
+									new AbstractTask<Void, Void>(
+											i18n.getText("com.github.pfichtner.jrunalyser.ui.dock.Dock.importDialog.title"), BLOCKING) { //$NON-NLS-1$
+										@Override
+										public Void execute(
+												Tracker<Void> tracker) {
+											int i = 0;
+											for (File file : files) {
+												tracker.setProgress(0,
+														files.size(), i++);
+												tracker.setPhase(i18n
+														.getText(
+																"com.github.pfichtner.jrunalyser.ui.dock.Dock.importDialog.format", file)); //$NON-NLS-1$
+												try {
+													datasourceFascade
+															.addTrack(GpxUnmarshaller
+																	.loadTrack(file));
+												} catch (IOException e) {
+													throw Throwables
+															.propagate(e);
+												}
+											}
+											return null;
+
+										}
+									}).execute();
+						}
+
+					} else {
+						for (File selectedFile : selectedFiles) {
+							try {
+								datasourceFascade.addTrack(GpxUnmarshaller
+										.loadTrack(selectedFile));
+							} catch (IOException e) {
+								throw Throwables.propagate(e);
+							}
 						}
 					}
+
 				}
 			}
 		});

@@ -552,14 +552,17 @@ public class Dock {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
 				JFileChooser chooser = new JFileChooser();
+                chooser.setMultiSelectionEnabled(true);
 				if (chooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = chooser.getSelectedFile();
-					try {
-						Track track = GpxUnmarshaller.loadTrack(selectedFile);
-						datasourceFascade.addTrack(track);
-					} catch (IOException e) {
-						throw Throwables.propagate(e);
-					}
+                    File[] selectedFiles = chooser.getSelectedFiles();
+                    for (File selectedFile : selectedFiles) {
+                         try {
+                            Track track = GpxUnmarshaller.loadTrack(selectedFile);
+                            datasourceFascade.addTrack(track);
+                        } catch (IOException e) {
+                            throw Throwables.propagate(e);
+                        }
+                    }
 				}
 			}
 		});

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.pfichtner.jrunalyser</groupId>
 	<artifactId>parent</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<developers>
@@ -36,7 +36,8 @@
 		<url>https://github.com/pfichtner/jrunalyzer.git</url>
 		<connection>scm:git:https://github.com/pfichtner/jrunalyzer.git</connection>
 		<developerConnection>scm:git:https://pfichtner@github.com/pfichtner/jrunalyzer.git</developerConnection>
-	</scm>
+	  <tag>HEAD</tag>
+  </scm>
 
 	<ciManagement>
 		<system>jenkins</system>

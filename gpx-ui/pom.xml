@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>gpx.ui</artifactId>
@@ -15,7 +14,7 @@
 	<parent>
 		<groupId>com.github.pfichtner.jrunalyser</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
+		<version>0.0.4-SNAPSHOT</version>
 	</parent>
 
 	<repositories>
@@ -30,7 +29,7 @@
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.base</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ezware.oxbow</groupId>
@@ -46,7 +45,7 @@
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.base</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.dockingframes</groupId>
@@ -59,56 +58,56 @@
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.cal</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.map</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.mapprofile</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.trackstats</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.overallstats</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.tracklist</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.trackcompare</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pfichtner.jrunalyser</groupId>
 			<artifactId>gpx.ui.lapinfo</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.4-SNAPSHOT</version>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
@@ -172,15 +171,13 @@
 					<transformers>
 						<!-- This bit sets the main class for the executable jar as you otherwise -->
 						<!-- would with the assembly plugin -->
-						<transformer
-							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 							<manifestEntries>
 								<Main-Class>com.github.pfichtner.jrunalyser.ui.dock.Dock</Main-Class>
 							</manifestEntries>
 						</transformer>
 						<!-- This bit merges the various META-INF/services files -->
-						<transformer
-							implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+						<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 					</transformers>
 				</configuration>
 			</plugin>

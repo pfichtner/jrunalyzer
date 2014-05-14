@@ -75,7 +75,6 @@ import com.github.pfichtner.jrunalyser.ui.map.painter.TrackPainter;
 import com.github.pfichtner.jrunalyser.ui.map.theme.DefaultTheme;
 import com.github.pfichtner.jrunalyser.ui.map.theme.Theme;
 import com.github.pfichtner.jrunalyser.ui.map.util.GeoUtil;
-import com.github.pfichtner.jrunalyser.ui.map.util.GeoUtil.CenterType;
 import com.github.pfichtner.jrunalyser.ui.map.wp.SegmentBorderWaypoint;
 import com.github.pfichtner.jrunalyser.ui.map.wp.SelectedWaypoint;
 import com.github.pfichtner.jrunalyser.ui.map.wp.TrackEndWaypoint;

@@ -2,6 +2,7 @@ package com.github.pfichtner.jrunalyser.ui.map;
 
 import static com.github.pfichtner.jrunalyser.ui.map.util.GeoUtil.calcCenter;
 import static com.github.pfichtner.jrunalyser.ui.map.util.GeoUtil.calcMaxZoomLevel;
+import static com.github.pfichtner.jrunalyser.ui.map.util.GeoUtil.CenterType.BOXPLOT_AVERAGE;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.getFirst;
@@ -74,6 +75,7 @@ import com.github.pfichtner.jrunalyser.ui.map.painter.TrackPainter;
 import com.github.pfichtner.jrunalyser.ui.map.theme.DefaultTheme;
 import com.github.pfichtner.jrunalyser.ui.map.theme.Theme;
 import com.github.pfichtner.jrunalyser.ui.map.util.GeoUtil;
+import com.github.pfichtner.jrunalyser.ui.map.util.GeoUtil.CenterType;
 import com.github.pfichtner.jrunalyser.ui.map.wp.SegmentBorderWaypoint;
 import com.github.pfichtner.jrunalyser.ui.map.wp.SelectedWaypoint;
 import com.github.pfichtner.jrunalyser.ui.map.wp.TrackEndWaypoint;
@@ -468,7 +470,8 @@ public class MapViewPlugin extends AbstractUiPlugin implements GridDataProvider 
 	public void setDatasourceFascade(DatasourceFascade dsf) throws IOException {
 		this.dsf = dsf;
 		log.debug("Calculating center of tracks"); //$NON-NLS-1$
-		GeoPosition center = calcCenter(dsf.loadTracks(dsf.getTrackIds()));
+		GeoPosition center = calcCenter(dsf.loadTracks(dsf.getTrackIds()),
+				BOXPLOT_AVERAGE);
 		log.info("Center of tracks calculated ({})", center); //$NON-NLS-1$
 		this.mapKit.setCenterPosition(center);
 		this.mapKit.setAddressLocationShown(false);

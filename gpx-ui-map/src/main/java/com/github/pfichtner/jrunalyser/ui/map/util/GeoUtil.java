@@ -18,12 +18,40 @@ import org.jdesktop.swingx.mapviewer.TileFactoryInfo;
 import com.github.pfichtner.jrunalyser.base.data.WayPoint;
 import com.github.pfichtner.jrunalyser.base.data.track.Metadata;
 import com.github.pfichtner.jrunalyser.base.data.track.Track;
+import com.github.pfichtner.jrunalyser.base.stat.Boxplot;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
+import com.google.common.primitives.Doubles;
 
 public final class GeoUtil {
 
 	private GeoUtil() {
 		super();
+	}
+
+	public enum CenterType {
+		AVERAGE {
+			@Override
+			public double avg(Iterable<Double> doubles) {
+				double sum = 0.0;
+				int cnt = 0;
+				for (Double d : doubles) {
+					sum += d.doubleValue();
+					cnt++;
+				}
+				return cnt > 0 ? sum / cnt : 0.0;
+			}
+		},
+		BOXPLOT_AVERAGE {
+			@Override
+			public double avg(Iterable<Double> doubles) {
+				Boxplot boxplot = new Boxplot(Lists.newArrayList(doubles));
+				return AVERAGE.avg(Doubles.asList(boxplot.getValues(boxplot
+						.outerFences())));
+			}
+		};
+
+		public abstract double avg(Iterable<Double> transform);
 	}
 
 	public static Rectangle2D getBounds(Track track, JXMapViewer jxMapViewer) {
@@ -61,24 +89,15 @@ public final class GeoUtil {
 		return calcCenter(lat1, lng1, lat2, lng2);
 	}
 
-	public static GeoPosition calcCenter(Iterable<Track> tracks) {
+	public static GeoPosition calcCenter(Iterable<Track> tracks,
+			CenterType centerType) {
 		FluentIterable<Metadata> metadatas = FluentIterable.from(tracks)
 				.transform(metadata);
-		double lat1 = sum(metadatas.transform(minLatitude));
-		double lng1 = sum(metadatas.transform(minLongitude));
-		double lat2 = sum(metadatas.transform(maxLatitude));
-		double lng2 = sum(metadatas.transform(maxLongitude));
+		double lat1 = centerType.avg(metadatas.transform(minLatitude));
+		double lng1 = centerType.avg(metadatas.transform(minLongitude));
+		double lat2 = centerType.avg(metadatas.transform(maxLatitude));
+		double lng2 = centerType.avg(metadatas.transform(maxLongitude));
 		return calcCenter(lat1, lng1, lat2, lng2);
-	}
-
-	private static double sum(Iterable<Double> doubles) {
-		double result = 0.0;
-		int cnt = 0;
-		for (Double d : doubles) {
-			result += d.doubleValue();
-			cnt++;
-		}
-		return cnt > 0 ? result / cnt : 0.0;
 	}
 
 	private static GeoPosition calcCenter(double lat1, double lng1,

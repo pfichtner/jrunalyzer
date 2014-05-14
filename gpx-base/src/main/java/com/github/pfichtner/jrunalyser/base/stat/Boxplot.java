@@ -1,6 +1,12 @@
 package com.github.pfichtner.jrunalyser.base.stat;
 
 import java.util.Arrays;
+import java.util.Collection;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Range;
+import com.google.common.primitives.Doubles;
 
 public final class Boxplot {
 
@@ -30,6 +36,14 @@ public final class Boxplot {
 					+ this.upper + "]";
 		}
 
+	}
+
+	public Boxplot(Double[] values) {
+		this(Doubles.toArray(Arrays.asList(values)));
+	}
+
+	public Boxplot(Collection<Double> values) {
+		this(Doubles.toArray(values));
 	}
 
 	public Boxplot(double[] values) {
@@ -76,6 +90,16 @@ public final class Boxplot {
 
 	public double[] getValues() {
 		return this.values.clone();
+	}
+
+	public double[] getValues(InterquatileRange fence) {
+		return filter(Range.closed(Double.valueOf(fence.getLower()),
+				Double.valueOf(fence.getUpper())));
+	}
+
+	public double[] filter(Predicate<Double> p) {
+		return Doubles.toArray(FluentIterable.from(Doubles.asList(this.values))
+				.filter(p).toList());
 	}
 
 }

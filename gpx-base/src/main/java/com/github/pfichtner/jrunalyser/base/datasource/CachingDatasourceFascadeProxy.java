@@ -105,16 +105,16 @@ public class CachingDatasourceFascadeProxy extends AbstractDatasourceFascade {
 
 				private Predicate<Track> similar(final Id id)
 						throws IOException {
+					final Track ref = loadTrack(id);
 					return com.google.common.base.Predicates.compose(
 							equalTo(Integer.valueOf(0)),
 							new Function<Track, Integer>() {
-								Track ref = loadTrack(id);
 								Comparator<Track> trackComparator = TrackComparators.byAttributes;
 
 								@Override
 								public Integer apply(Track track) {
 									return Integer.valueOf(this.trackComparator
-											.compare(this.ref, track));
+											.compare(ref, track));
 								}
 							});
 				};
@@ -147,7 +147,8 @@ public class CachingDatasourceFascadeProxy extends AbstractDatasourceFascade {
 	public Iterable<Id> getTrackIds(Date start, Date end) throws IOException {
 		Iterable<Track> tracks = transform(getTrackIds(), this.loadTrack);
 		Iterable<Track> filtered = filter(tracks, fromTo(this, start, end));
-		return transform(Orderings.time.sortedCopy(filtered),
+		return transform(
+				Orderings.time.sortedCopy(filtered),
 				com.github.pfichtner.jrunalyser.base.data.stat.Functions.Tracks.id);
 	}
 

@@ -20,7 +20,7 @@ import com.github.pfichtner.jrunalyser.base.data.track.DefaultTrack;
 import com.github.pfichtner.jrunalyser.base.data.track.Track;
 import com.github.pfichtner.jrunalyser.base.data.track.Tracks;
 import com.github.pfichtner.jrunalyser.base.data.track.comparator.TrackComparators;
-import com.github.pfichtner.jrunalyser.base.data.track.comparator.TrackComparators.MultiComparator;
+import com.github.pfichtner.jrunalyser.base.data.track.comparator.TrackComparators.ChainedComparator;
 import com.github.pfichtner.jrunalyser.base.data.track.comparator.TrackComparators.MultiWaypointDistanceComparator;
 import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
@@ -49,7 +49,7 @@ public class TrackCompareShowcase3 {
 				if (!fb.equals(fa)) {
 					final Track tb = loadTrack(fb);
 
-					MultiComparator<Track> baseAttributes = TrackComparators.baseAttributes;
+					ChainedComparator<Track> baseAttributes = TrackComparators.baseAttributes;
 
 					Comparator<Track> segmentStartPointsEqual = TrackComparators
 							.segmentStartPointsEqual(ta, tb, DefaultDistance

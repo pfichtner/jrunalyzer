@@ -56,24 +56,35 @@ public final class TrackComparators {
 
 	}
 
-	public static class MultiComparator<T> implements Comparator<T> {
+	/**
+	 * ChainedComparator calls {@link Comparator#compare(Object, Object)} on
+	 * each comparator of the chain until the compare result is
+	 * <code>!= 0</code>, this result of this last {@link Comparator} is
+	 * returned or <code>0</code> if all compare results were <code>0</code>,
+	 * 
+	 * @author Peter Fichtner
+	 * 
+	 * @param <T>
+	 *            type this Comparator compares
+	 */
+	public static class ChainedComparator<T> implements Comparator<T> {
 
 		private final List<Comparator<T>> comparators;
 
-		public MultiComparator(Comparator<T> comparator) {
+		public ChainedComparator(Comparator<T> comparator) {
 			this.comparators = ImmutableList.of(comparator);
 		}
 
-		public MultiComparator(Iterable<Comparator<T>> comparators) {
+		public ChainedComparator(Iterable<Comparator<T>> comparators) {
 			this.comparators = ImmutableList.copyOf(comparators);
 		}
 
-		public MultiComparator<T> add(Comparator<T> comparator) {
-			return new MultiComparator<T>(base().add(comparator).build());
+		public ChainedComparator<T> add(Comparator<T> comparator) {
+			return new ChainedComparator<T>(base().add(comparator).build());
 		}
 
-		public MultiComparator<T> addAll(Iterable<Comparator<T>> comparators) {
-			return new MultiComparator<T>(base().addAll(comparators).build());
+		public ChainedComparator<T> addAll(Iterable<Comparator<T>> comparators) {
+			return new ChainedComparator<T>(base().addAll(comparators).build());
 		}
 
 		private Builder<Comparator<T>> base() {
@@ -359,7 +370,7 @@ public final class TrackComparators {
 	 * meters</li>
 	 * </ul>
 	 */
-	public static MultiComparator<Track> baseAttributes = builder()
+	public static ChainedComparator<Track> baseAttributes = builder()
 			.addRel(trackLength(DistanceUnit.METERS), 8)
 			.addRel(trackWidth(DistanceUnit.METERS), 8)
 			.addRel(trackHeight(DistanceUnit.METERS), 8)
@@ -598,8 +609,8 @@ public final class TrackComparators {
 			return this;
 		}
 
-		public MultiComparator<Track> build() {
-			return new MultiComparator<Track>(this.comparators);
+		public ChainedComparator<Track> build() {
+			return new ChainedComparator<Track>(this.comparators);
 		}
 	}
 

@@ -422,10 +422,11 @@ public class MapViewPlugin extends AbstractUiPlugin implements GridDataProvider 
 			// TODO use binary search!?
 			SelectedWaypoint first = getFirst(selected, null);
 			if (first == null) {
-				wps.add(new SelectedWaypoint(geoPos));
-			} else {
-				first.setPosition(geoPos);
+				wps.add(first = new SelectedWaypoint());
 			}
+			first.setPosition(geoPos);
+			first.setSelectedWayPoint(mouseOverWaypoint.getSelectedWayPoint());
+
 			this.mapKit.getMainMap().repaint();
 		}
 	}

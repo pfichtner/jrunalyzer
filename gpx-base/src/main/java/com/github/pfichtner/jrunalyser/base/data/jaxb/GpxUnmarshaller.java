@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -27,9 +28,14 @@ import javax.xml.transform.stream.StreamSource;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.github.pfichtner.jrunalyser.base.data.DefaultDistance;
+import com.github.pfichtner.jrunalyser.base.data.DefaultDuration;
 import com.github.pfichtner.jrunalyser.base.data.DefaultLink;
 import com.github.pfichtner.jrunalyser.base.data.DefaultLinkedWayPoint;
 import com.github.pfichtner.jrunalyser.base.data.DefaultWayPoint;
+import com.github.pfichtner.jrunalyser.base.data.Distance;
+import com.github.pfichtner.jrunalyser.base.data.DistanceUnit;
+import com.github.pfichtner.jrunalyser.base.data.Duration;
 import com.github.pfichtner.jrunalyser.base.data.Link;
 import com.github.pfichtner.jrunalyser.base.data.LinkedTrackPoint;
 import com.github.pfichtner.jrunalyser.base.data.WayPoint;
@@ -297,15 +303,23 @@ public final class GpxUnmarshaller {
 	private static List<LinkedTrackPoint> fill(
 			Iterable<? extends WayPoint> wps, List<LinkedTrackPoint> result) {
 		WayPoint last = null;
+
+		Distance overallDistance = DefaultDistance.of(0, DistanceUnit.METERS);
+		Duration overallDuration = DefaultDuration.of(0, TimeUnit.MILLISECONDS);
+
 		for (WayPoint next : wps) {
 			if (last != null) {
 				Link link = DefaultLink.of(last, next);
-				result.add(DefaultLinkedWayPoint.of(last, link));
+				result.add(DefaultLinkedWayPoint.of(last, link,
+						overallDistance, overallDuration));
+				overallDuration = overallDuration.add(link.getDuration());
+				overallDistance = overallDistance.add(link.getDistance());
 			}
 			last = next;
 		}
 		if (last != null) {
-			result.add(DefaultLinkedWayPoint.of(last, null));
+			result.add(DefaultLinkedWayPoint.of(last, null, overallDistance,
+					overallDuration));
 		}
 		return result;
 	}

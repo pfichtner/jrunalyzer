@@ -18,6 +18,10 @@ public class DefaultWayPoint extends DefaultCoordinate implements WayPoint,
 		this.time = time;
 	}
 
+	public DefaultWayPoint(Coordinate coordinate, Integer ele, Long time) {
+		this(coordinate.getLatitude(), coordinate.getLongitude(), ele, time);
+	}
+
 	public static DefaultWayPoint of(WayPoint wayPoint) {
 		DefaultWayPoint wp = new DefaultWayPoint(wayPoint.getLatitude(),
 				wayPoint.getLongitude(), wayPoint.getElevation(),

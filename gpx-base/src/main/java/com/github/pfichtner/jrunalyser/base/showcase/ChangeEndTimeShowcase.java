@@ -41,11 +41,12 @@ public class ChangeEndTimeShowcase {
 
 		GpxMarshaller.writeTrack(
 				new PrintWriter(System.out),
-				new DefaultTrack(track.getId(), track.getMetadata(),
-						track.getWaypoints(), Collections.singletonList(new DefaultSegment(Lists
-										.transform(track.getTrackpoints(),
-												changeTime(origStartTime, multiplier)),
-										null)), null));
+				new DefaultTrack(track.getId(), track.getMetadata(), track
+						.getWaypoints(), Collections
+						.singletonList(new DefaultSegment(Lists.transform(
+								track.getTrackpoints(),
+								changeTime(origStartTime, multiplier)), null)),
+						null));
 	}
 
 	private static Function<LinkedTrackPoint, LinkedTrackPoint> changeTime(
@@ -58,7 +59,8 @@ public class ChangeEndTimeShowcase {
 				return DefaultLinkedWayPoint.of(
 						new DefaultWayPoint(in.getLatitude(),
 								in.getLongitude(), in.getElevation(), Long
-										.valueOf(newTime)), in.getLink());
+										.valueOf(newTime)), in.getLink(), in
+								.getOverallDistance(), in.getOverallDuration());
 			}
 		};
 	}

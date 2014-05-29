@@ -291,6 +291,7 @@ public class TrackStatsPanel extends JPanel {
 			List<Id> top400m = this.dsf.listTracks(di);
 			int idx = indexOf(top400m, equalTo(track.getId()));
 			if (idx >= 0) {
+				// TOOD orNull: Handle null!
 				Statistics statistics = this.dsf.loadBestSegment(
 						top400m.get(idx), di).orNull();
 				FixedDistance fixedDistance = new FixedDistance(di);
@@ -309,6 +310,7 @@ public class TrackStatsPanel extends JPanel {
 			List<Id> top12min = this.dsf.listTracks(du);
 			int idx = indexOf(top12min, equalTo(track.getId()));
 			if (idx >= 0) {
+				// TOOD orNull: Handle null!
 				Statistics statistics = this.dsf.loadBestSegment(
 						top12min.get(idx), du).orNull();
 				FixedDuration fixedDuration = new FixedDuration(du);

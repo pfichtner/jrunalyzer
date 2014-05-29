@@ -5,18 +5,12 @@ import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import com.github.pfichtner.jrunalyser.base.data.DistanceUnit;
-import com.github.pfichtner.jrunalyser.base.data.LinkedTrackPoint;
 import com.github.pfichtner.jrunalyser.base.data.jaxb.GpxUnmarshaller;
 import com.github.pfichtner.jrunalyser.base.data.stat.DefaultStatistics;
 import com.github.pfichtner.jrunalyser.base.util.Validator;
-import com.google.common.collect.Iterables;
 
 public class TracksTest {
 
@@ -41,32 +35,10 @@ public class TracksTest {
 		assertFalse(Tracks.isAwayEqReturn(toDefault(loadTrack())));
 	}
 
-	@Test
-	@Ignore
-	public void testOveralls() throws IOException {
-		Track track = toDefault(loadTrack());
-		List<? extends LinkedTrackPoint> tps = track.getTrackpoints();
-
-		LinkedTrackPoint first = Iterables.getFirst(tps, null);
-		assertEquals(0, first.getOverallDistance()
-				.getValue(DistanceUnit.METERS), 0.0);
-		assertEquals(0,
-				first.getOverallDuration().getValue(TimeUnit.MILLISECONDS), 0.0);
-
-		LinkedTrackPoint last = Iterables.getLast(tps);
-		assertEquals(
-				track.getStatistics().getDistance()
-						.convertTo(DistanceUnit.METERS), last
-						.getOverallDistance().convertTo(DistanceUnit.METERS));
-		assertEquals(
-				track.getStatistics().getDuration().convertTo(TimeUnit.SECONDS),
-				last.getOverallDuration().convertTo(TimeUnit.SECONDS));
-	}
-
 	private Track toDefault(Track track) {
 		return new DefaultTrack(null, track.getMetadata(),
-				track.getWaypoints(), track.getSegments(),
-				DefaultStatistics.ofTrack(track));
+				GpxUnmarshaller.toLinked(track.getWaypoints()),
+				track.getSegments(), DefaultStatistics.ofTrack(track));
 	}
 
 	private Track loadTrack() throws IOException {

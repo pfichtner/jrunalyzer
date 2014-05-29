@@ -2,6 +2,7 @@ package com.github.pfichtner.jrunalyser.base.data.track;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.github.pfichtner.jrunalyser.base.data.DefaultDistance;
@@ -25,14 +26,24 @@ public class Tracks {
 	}
 
 	public static LinkedTrackPoint getStartPoint(Track track) {
-		return checkNotEmpty(track.getTrackpoints()).get(0);
+		return getStartPoint(track.getTrackpoints());
+	}
+
+	public static LinkedTrackPoint getStartPoint(
+			Collection<? extends LinkedTrackPoint> trackpoints) {
+		return Iterables.get(checkNotEmpty(trackpoints), 0);
 	}
 
 	public static LinkedTrackPoint getEndPoint(Track track) {
-		return Iterables.getLast(checkNotEmpty(track.getTrackpoints()));
+		return getEndPoint(track.getTrackpoints());
 	}
 
-	private static <T> List<T> checkNotEmpty(List<T> wps) {
+	public static LinkedTrackPoint getEndPoint(
+			Collection<? extends LinkedTrackPoint> trackpoints) {
+		return Iterables.getLast(checkNotEmpty(trackpoints));
+	}
+
+	private static <T> Collection<T> checkNotEmpty(Collection<T> wps) {
 		checkArgument(!wps.isEmpty(), "Track has no waypoints");
 		return wps;
 	}

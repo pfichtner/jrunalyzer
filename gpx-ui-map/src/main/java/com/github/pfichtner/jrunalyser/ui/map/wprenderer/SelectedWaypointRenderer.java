@@ -20,6 +20,8 @@ import com.github.pfichtner.jrunalyser.base.data.LinkedTrackPoint;
 import com.github.pfichtner.jrunalyser.base.data.Pace;
 import com.github.pfichtner.jrunalyser.base.data.Speed;
 import com.github.pfichtner.jrunalyser.base.data.WayPoint;
+import com.github.pfichtner.jrunalyser.base.data.stat.StatCalculators;
+import com.github.pfichtner.jrunalyser.base.data.track.Tracks;
 import com.github.pfichtner.jrunalyser.ui.base.Settings;
 import com.github.pfichtner.jrunalyser.ui.base.StaticSettings;
 import com.github.pfichtner.jrunalyser.ui.format.DistanceFormatter;
@@ -51,30 +53,36 @@ public class SelectedWaypointRenderer extends
 		g.setColor(Color.RED);
 		g.fill(new Ellipse2D.Double(-r, -r, 2 * r + 1, 2 * r + 1));
 
-		WayPoint wp = waypoint.getSelectedWayPoint();
-		Long time = wp.getTime();
-		if (time != null) {
-			if (wp instanceof LinkedTrackPoint) {
-				LinkedTrackPoint ltp = (LinkedTrackPoint) wp;
-				Link link = ltp.getLink();
-
-				Distance distance = ltp.getOverallDistance();
-				Speed speed = link.getSpeed();
-				Pace pace = speed.toPace(TimeUnit.MINUTES,
-						DistanceUnit.KILOMETERS);
-				Duration duration = ltp.getOverallDuration();
-				Integer elevation = wp.getElevation();
-				Settings settings = StaticSettings.INSTANCE;
-
-				String str = this.dif.format(distance) + "\n"
-						+ this.duf.format(duration) + "\n"
-						+ this.spf.format(settings, speed) + "\n"
-						+ this.paf.format(settings, pace) + "\n" + elevation;
-				drawText(g, str, 100);
-
-			} else
-				g.drawString(new Date(time.longValue()).toString(), 20, -20);
-		}
+//		WayPoint wp = waypoint.getSelectedWayPoint();
+//		Long time = wp.getTime();
+//		if (time != null) {
+//			if (wp instanceof LinkedTrackPoint) {
+//				LinkedTrackPoint ltp = (LinkedTrackPoint) wp;
+//				Link link = ltp.getLink();
+//
+//				Iterable<? extends LinkedTrackPoint> linkedTps = Tracks.fromTo(
+//						Tracks.getStartPoint(waypoint.getTrack()),
+//						waypoint.getSelectedWayPoint());
+//				Distance distance = StatCalculators.distance(
+//						DistanceUnit.METERS).calculate(linkedTps);
+//				Duration duration = StatCalculators.duration(TimeUnit.SECONDS)
+//						.calculate(linkedTps);
+//
+//				Speed speed = link.getSpeed();
+//				Pace pace = speed.toPace(TimeUnit.MINUTES,
+//						DistanceUnit.KILOMETERS);
+//				Integer elevation = wp.getElevation();
+//				Settings settings = StaticSettings.INSTANCE;
+//
+//				String str = this.dif.format(distance) + "\n"
+//						+ this.duf.format(duration) + "\n"
+//						+ this.spf.format(settings, speed) + "\n"
+//						+ this.paf.format(settings, pace) + "\n" + elevation;
+//				drawText(g, str, 100);
+//
+//			} else
+//				g.drawString(new Date(time.longValue()).toString(), 20, -20);
+//		}
 	}
 
 	private void drawText(Graphics2D g2, String text, float width) {

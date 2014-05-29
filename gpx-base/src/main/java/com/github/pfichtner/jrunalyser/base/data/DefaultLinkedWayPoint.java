@@ -9,21 +9,13 @@ public class DefaultLinkedWayPoint implements LinkedTrackPoint, Serializable {
 	private final WayPoint delegate;
 	private final Link link;
 
-	private final Distance overallDistance;
-	private final Duration overallDuration;
-
-	private DefaultLinkedWayPoint(WayPoint wayPoint, Link link,
-			Distance overallDistance, Duration overallDuration) {
+	private DefaultLinkedWayPoint(WayPoint wayPoint, Link link) {
 		this.delegate = wayPoint;
 		this.link = link;
-		this.overallDistance = overallDistance;
-		this.overallDuration = overallDuration;
 	}
 
-	public static DefaultLinkedWayPoint of(WayPoint wayPoint, Link link,
-			Distance overallDistance, Duration overallDuration) {
-		return new DefaultLinkedWayPoint(wayPoint, link, overallDistance,
-				overallDuration);
+	public static DefaultLinkedWayPoint of(WayPoint wayPoint, Link link) {
+		return new DefaultLinkedWayPoint(wayPoint, link);
 	}
 
 	@Override
@@ -51,19 +43,9 @@ public class DefaultLinkedWayPoint implements LinkedTrackPoint, Serializable {
 		return this.link;
 	}
 
-	public Distance getOverallDistance() {
-		return this.overallDistance;
-	}
-
-	public Duration getOverallDuration() {
-		return this.overallDuration;
-	}
-
 	@Override
 	public String toString() {
 		return "DefaultLinkedWayPoint [delegate=" + this.delegate + ", link="
-				+ this.link + ", overallDistance=" + this.overallDistance
-				+ ", overallDuration=" + this.overallDuration + "]";
+				+ this.link + "]";
 	}
-
 }

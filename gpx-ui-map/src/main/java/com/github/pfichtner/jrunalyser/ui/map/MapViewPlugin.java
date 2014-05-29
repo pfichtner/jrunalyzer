@@ -425,7 +425,8 @@ public class MapViewPlugin extends AbstractUiPlugin implements GridDataProvider 
 				wps.add(first = new SelectedWaypoint());
 			}
 			first.setPosition(geoPos);
-			first.setSelectedWayPoint(mouseOverWaypoint.getSelectedWayPoint());
+			first.setSelectedWayPoint(this.track,
+					mouseOverWaypoint.getSelectedWayPoint());
 
 			this.mapKit.getMainMap().repaint();
 		}

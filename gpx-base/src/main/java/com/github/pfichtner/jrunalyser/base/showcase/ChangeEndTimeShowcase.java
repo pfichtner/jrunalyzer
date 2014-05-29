@@ -59,8 +59,7 @@ public class ChangeEndTimeShowcase {
 				return DefaultLinkedWayPoint.of(
 						new DefaultWayPoint(in.getLatitude(),
 								in.getLongitude(), in.getElevation(), Long
-										.valueOf(newTime)), in.getLink(), in
-								.getOverallDistance(), in.getOverallDuration());
+										.valueOf(newTime)), in.getLink());
 			}
 		};
 	}

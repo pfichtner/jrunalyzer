@@ -14,7 +14,12 @@ public class SelectedWaypoint extends DefaultWaypoint {
 		return this.selectedWayPoint;
 	}
 
-	public void setSelectedWayPoint(WayPoint selectedWayPoint) {
+	public Track getTrack() {
+		return this.track;
+	}
+
+	public void setSelectedWayPoint(Track track, WayPoint selectedWayPoint) {
+		this.track = track;
 		this.selectedWayPoint = selectedWayPoint;
 	}
 

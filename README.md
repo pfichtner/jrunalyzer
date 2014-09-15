@@ -26,19 +26,19 @@ java jrunalayzer-vX.X.X.jar
 * Common waypoint support (waypoints defined in $HOME/gpx/common.wpts will be shown on all tracks)
 * Overall statistics showing aggregated statistics such as overall distance, duration, longest track, longest break, most active month/year and many more
 
-![JRunalayzer Screenshot 1](/docs/screenshots/jrunalayzer1.png?raw=true)
+![JRunalayzer Screenshot 1](https://pfichtner.github.io/jrunalayzer/screenshots/jrunalayzer1.png)
 JRunalayzer with calendar, track list, and statistics
 
-![JRunalayzer Screenshot 2](/docs/screenshots/jrunalayzer2.png?raw=true)
+![JRunalayzer Screenshot 2](https://pfichtner.github.io/jrunalayzer/screenshots/jrunalayzer2.png)
 JRunalayzer with calendar, profile, and statistics
 
-![JRunalayzer Screenshot 3](/docs/screenshots/jrunalayzer3.png?raw=true)
+![JRunalayzer Screenshot 3](https://pfichtner.github.io/jrunalayzer/screenshots/jrunalayzer3.png)
 JRunalayzer showing the comparison view and three segmented (by time) tracks overlayed
 
-![JRunalayzer Screenshot 4](/docs/screenshots/jrunalayzer4.png?raw=true)
+![JRunalayzer Screenshot 4](https://pfichtner.github.io/jrunalayzer/screenshots/jrunalayzer4.png)
 JRunalayzer showing the comparison view and three segmented (by time) tracks overlayed
 
-![JRunalayzer Screenshot 5](/docs/screenshots/jrunalayzer5.png?raw=true)
+![JRunalayzer Screenshot 5](https://pfichtner.github.io/jrunalayzer/screenshots/jrunalayzer5.png)
 JRunalayzer showing the segment view and three segmented (by distance) tracks overlayed
 
 ## Tips & tricks

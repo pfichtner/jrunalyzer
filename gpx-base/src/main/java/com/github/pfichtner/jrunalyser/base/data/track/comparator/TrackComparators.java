@@ -23,9 +23,9 @@ import com.github.pfichtner.jrunalyser.base.data.Distance;
 import com.github.pfichtner.jrunalyser.base.data.DistanceUnit;
 import com.github.pfichtner.jrunalyser.base.data.Distances;
 import com.github.pfichtner.jrunalyser.base.data.GeoUtil;
-import com.github.pfichtner.jrunalyser.base.data.WayPoint;
 import com.github.pfichtner.jrunalyser.base.data.GeoUtil.BearingInfo;
 import com.github.pfichtner.jrunalyser.base.data.GeoUtil.DefaultBearingInfo;
+import com.github.pfichtner.jrunalyser.base.data.WayPoint;
 import com.github.pfichtner.jrunalyser.base.data.segmenter.Segmenter;
 import com.github.pfichtner.jrunalyser.base.data.segmenter.Segmenters;
 import com.github.pfichtner.jrunalyser.base.data.track.Track;
@@ -39,7 +39,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.primitives.Doubles;
 
 /**
  * Utility class holding references to {@link Comparator}s for {@link Track}s.

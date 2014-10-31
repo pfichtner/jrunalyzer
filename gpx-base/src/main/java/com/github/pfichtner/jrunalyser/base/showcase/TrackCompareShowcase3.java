@@ -12,8 +12,6 @@ import java.util.List;
 import com.github.pfichtner.jrunalyser.base.data.DefaultDistance;
 import com.github.pfichtner.jrunalyser.base.data.Distance;
 import com.github.pfichtner.jrunalyser.base.data.DistanceUnit;
-import com.github.pfichtner.jrunalyser.base.data.LinkedTrackPoint;
-import com.github.pfichtner.jrunalyser.base.data.WayPoint;
 import com.github.pfichtner.jrunalyser.base.data.jaxb.GpxUnmarshaller;
 import com.github.pfichtner.jrunalyser.base.data.stat.DefaultStatistics;
 import com.github.pfichtner.jrunalyser.base.data.track.DefaultTrack;

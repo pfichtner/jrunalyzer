@@ -1,5 +1,6 @@
 package com.github.pfichtner.jrunalyser.base.datasource;
 
+import static com.google.common.base.Predicates.compose;
 import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.not;
 
@@ -100,17 +101,21 @@ public class StatCalculatorDatasourceFascade extends AbstractDatasourceFascade {
 	}
 
 	private Predicate<Track> similarTo(final Id id) throws IOException {
-		return com.google.common.base.Predicates.compose(
-				equalTo(Integer.valueOf(0)), new Function<Track, Integer>() {
-					Track ref = loadTrack(id);
-					Comparator<Track> trackComparator = TrackComparators.byAttributes;
+		return compose(equalTo(Integer.valueOf(0)), compareTrack(id));
+	}
 
-					@Override
-					public Integer apply(Track track) {
-						return Integer.valueOf(this.trackComparator.compare(
-								this.ref, track));
-					}
-				});
+	private Function<Track, Integer> compareTrack(final Id id)
+			throws IOException {
+		return new Function<Track, Integer>() {
+			Track ref = loadTrack(id);
+			Comparator<Track> trackComparator = TrackComparators.byAttributes;
+
+			@Override
+			public Integer apply(Track track) {
+				return Integer.valueOf(this.trackComparator.compare(this.ref,
+						track));
+			}
+		};
 	};
 
 	@Override

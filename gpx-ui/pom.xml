@@ -115,7 +115,6 @@
 
 	<build>
 		<plugins>
-<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>webstart-maven-plugin</artifactId>
@@ -135,13 +134,12 @@
 						<mainClass>com.github.pfichtner.jrunalyser.ui.dock.Dock</mainClass>
 					</jnlp>
 
-					<pack200>true</pack200>
+					<!-- <pack200>true</pack200> -->
 					<gzip>true</gzip>
 					<outputJarVersions>true</outputJarVersions>
 					<verbose>true</verbose>
 				</configuration>
 			</plugin>
--->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

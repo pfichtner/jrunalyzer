@@ -1,4 +1,4 @@
-# jrunalayzer [![Build Status](https://buildhive.cloudbees.com/job/pfichtner/job/jrunalyzer/badge/icon)](https://buildhive.cloudbees.com/job/pfichtner/job/jrunalyzer/)
+# jrunalayzer [![Build Status](https://travis-ci.org/pfichtner/jrunalyzer.svg?branch=master)](https://travis-ci.org/pfichtner/jrunalyzer)
 
 JRunalayzer is a FAT-Client DockingFrame based Swing application for managing and displaying GPX files. 
 GPX files can be imported using the application itselfs or alternativly placed directly in the $HOME/gpx directory. 
